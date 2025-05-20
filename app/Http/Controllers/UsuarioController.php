@@ -18,6 +18,17 @@ class UsuarioController extends Controller
   }
   public function registrar(Request $request){
     //return $request;
+    $request->validate([
+      'password' => [
+          'required',
+          'string',
+          'min:8',
+          'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).+$/',
+          'confirmed'
+      ],
+  ], [
+      'password.regex' => 'La contraseña debe tener al menos una mayúscula, un número y un carácter especial.',
+  ]);
     $registro=new User();
     $registro->name=ucwords($request->name);
     $registro->email=$request->email;
